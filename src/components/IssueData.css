@@ -1,510 +1,863 @@
+/* Custom Properties (Variables) */
 :root {
-  --primary: #4361ee;
-  --primary-light: #5a75f0;
-  --primary-dark: #2f4bc8;
-  --light: #ffffff;
-  --light-alt: #f8f9ff;
-  --text-dark: #1d1f36;
-  --text-muted: #6c6d8d;
-  --shadow: rgba(67, 97, 238, 0.1);
-  --hover-shadow: rgba(67, 97, 238, 0.25);
-  --delete-bg: #ffeff0;
-  --delete-hover: #e63946;
-  --success: #38a169;
-  --error: #e53e3e;
-  --border: rgba(226, 232, 240, 0.5);
-  --radius: 16px;
-  --transition: all 0.3s ease;
-  --glass: rgba(255, 255, 255, 0.85);
+    --primary: #4361ee;
+    --primary-light: #5a75f0;
+    --primary-dark: #2f4bc8;
+    --light: #ffffff;
+    --light-alt: #f8f9ff;
+    --text-dark: #1d1f36;
+    --text-muted: #6c6d8d;
+    --shadow-light: rgba(67, 97, 238, 0.08); /* Lighter base shadow */
+    --shadow-medium: rgba(67, 97, 238, 0.15); /* Medium shadow for focus/hover */
+    --shadow-strong: rgba(67, 97, 238, 0.28); /* Stronger shadow for prominent elements */
+    --delete-bg: #ffeff0;
+    --delete-hover: #e63946;
+    --success: #38a169;
+    --error: #e53e3e;
+    --border-light: rgba(226, 232, 240, 0.6); /* Slightly more opaque border */
+    --radius-soft: 12px; /* Softer radius for cards/buttons */
+    --radius-round: 50px; /* For pills and search box */
+    --transition-fast: all 0.25s ease-out; /* Quicker feedback */
+    --transition-medium: all 0.4s cubic-bezier(0.2, 0.8, 0.4, 1); /* Smoother, slightly bouncy */
+    --transition-slow: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* For more dramatic animations */
+    --glass-background: rgba(255, 255, 255, 0.7); /* Base glass background */
+    --glass-border: rgba(255, 255, 255, 0.5); /* Glass border for depth */
+    --focus-pulse-color: rgba(67, 97, 238, 0.2); /* Color for pulsing shadow on focus */
 }
 
-/* Reset & Base */
+/* Base Reset & Typography */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+html {
+    scroll-behavior: smooth;
+    background-color: var(--light-alt);
+    font-size: 16px; /* Base font size for better rem calculation */
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1rem; /* Consistent padding around content */
+    background: radial-gradient(circle at 10% 80%, rgba(67, 97, 238, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 20%, rgba(46, 204, 113, 0.05) 0%, transparent 20%),
+                var(--light-alt); /* More subtle background gradients */
+    animation: backgroundShift 25s infinite alternate ease-in-out;
+}
+
+@keyframes backgroundShift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
 
 .container {
-  max-width: 1400px;
-  width: 100%;
+    max-width: 1400px;
+    width: 100%;
+    padding: 0 1.5rem; /* More generous horizontal padding for main content */
+    margin: 0 auto;
 }
 
 /* Header */
 header {
-  text-align: center;
-  margin-bottom: 2.5rem;
-  animation: fadeInDown 0.8s ease-out;
+    text-align: center;
+    margin-bottom: 3rem; /* Increased margin */
+    animation: fadeInDown 0.8s ease-out;
+    position: relative; /* For subtle header animation */
 }
 
+h1 {
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 3.8rem); /* Larger, more fluid heading */
+    margin-bottom: 0.75rem; /* Reduced margin, subtitle handles spacing */
+    color: var(--text-dark);
+    letter-spacing: -0.05em; /* Tighter for impact */
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem; /* Space for underline */
+    animation: floatHeading 8s ease-in-out infinite;
+}
 
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0; /* Aligned to bottom of padding */
+    left: 50%;
+    transform: translateX(-50%); /* Centered underline */
+    width: 80px;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    border-radius: 3px;
+    animation: underlinePulse 3s ease-in-out infinite;
+    box-shadow: 0 2px 8px rgba(67, 97, 238, 0.3); /* Subtle shadow for underline */
+}
+
+@keyframes floatHeading {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); } /* Subtle floating effect */
+}
+
+@keyframes underlinePulse {
+    0%, 100% { width: 80px; opacity: 1; }
+    50% { width: 100px; opacity: 0.9; }
+}
 
 .subtitle {
-  font-size: 1.15rem;
-  color: var(--text-muted);
-  max-width: 600px;
-  margin: 0 auto;
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem); /* Fluid and slightly larger subtitle */
+    color: var(--text-muted);
+    max-width: 700px; /* Wider subtitle for more context */
+    margin: 0.75rem auto 0; /* Space after h1 */
+    line-height: 1.5;
 }
 
 /* Search */
 .search-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 3rem;
-  max-width: 50rem;
-  position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3.5rem; /* Increased margin */
+    max-width: 55rem; /* Wider search bar */
+    width: 100%;
+    position: relative;
+    animation: fadeInUp 0.7s ease-out 0.2s forwards; /* Fades in later */
+    opacity: 0;
 }
 
 .searchBox {
-  width: 100%;
-  height: 3.75rem;
-  padding: 0 1.5rem 0 4rem;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 50px;
-  font-size: 1.1rem;
-  background: var(--glass);
-  backdrop-filter: blur(12px);
-  outline: none;
-  transition: var(--transition);
-  box-shadow: 0 8px 32px var(--shadow), 0 2px 8px rgba(67, 97, 238, 0.05);
+    width: 100%;
+    height: 4rem; /* Taller search box */
+    padding: 0 2rem 0 4.5rem; /* Increased padding for icon */
+    border: 1px solid var(--glass-border); /* Clearer glass border */
+    border-radius: var(--radius-round);
+    font-size: 1.15rem; /* Slightly larger font */
+    background: var(--glass-background);
+    backdrop-filter: blur(15px); /* More blur for stronger glass effect */
+    outline: none;
+    transition: var(--transition-medium);
+    box-shadow: 0 10px 35px var(--shadow-light), 0 3px 10px rgba(67, 97, 238, 0.05); /* Softer initial shadow */
+}
+
+/* Search Box Focus Animation */
+@keyframes pulseShadow {
+    0% {
+        box-shadow: 0 12px 40px var(--shadow-medium), 0 4px 16px var(--shadow-light);
+    }
+    50% {
+        box-shadow: 0 12px 50px var(--focus-pulse-color), 0 4px 20px var(--focus-pulse-color), 0 12px 40px var(--shadow-medium);
+    }
+    100% {
+        box-shadow: 0 12px 40px var(--shadow-medium), 0 4px 16px var(--shadow-light);
+    }
 }
 
 .searchBox:focus {
-  background: rgba(255, 255, 255, 0.95);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px var(--hover-shadow), 0 4px 16px var(--shadow);
-  outline: 2px solid var(--primary);
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-5px); /* More pronounced lift */
+    outline: 3px solid var(--primary); /* Thicker, more prominent outline */
+    border-color: var(--primary); /* Border color matches outline */
+    animation: pulseShadow 2s infinite ease-in-out forwards; /* Continuous pulsing shadow on focus */
 }
 
+
 .searchBox::placeholder {
-  color: #a0aec0;
+    color: var(--text-muted); /* Placeholder color from variables */
+    opacity: 0.8;
 }
 
 .search-icon {
-  position: absolute;
-  left: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.35rem;
-  color: var(--primary);
-  z-index: 2;
+    position: absolute;
+    left: 2rem; /* Adjusted icon position */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem; /* Larger icon */
+    color: var(--primary);
+    z-index: 2;
+    transition: transform var(--transition-fast), color var(--transition-fast); /* Smooth transition for icon */
 }
+
+/* Search Icon Active Searching Animation */
+@keyframes iconSpin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+@keyframes iconPulseScale {
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.1); }
+}
+
+/* Class to trigger active searching animation on the icon */
+.search-container.is-searching .search-icon {
+    animation: iconSpin 1.5s linear infinite, iconPulseScale 1s ease-in-out infinite alternate;
+    color: var(--primary-dark); /* Darker color when active */
+}
+
 
 /* Tab Switch */
 .tab-switch {
-  display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* More space between buttons */
+    margin-bottom: 2.5rem; /* Adjusted margin */
+    animation: fadeInUp 0.7s ease-out 0.4s forwards; /* Fades in later */
+    opacity: 0;
 }
 
 .tab-switch button {
-  padding: 0.8rem 2rem;
-  border: none;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 1rem;
-  background: rgba(226, 232, 240, 0.7);
-  color: var(--text-dark);
-  cursor: pointer;
-  backdrop-filter: blur(4px);
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
+    padding: 0.9rem 2.2rem; /* More padding */
+    border: none;
+    border-radius: var(--radius-round);
+    font-weight: 600;
+    font-size: 1.05rem; /* Slightly larger font */
+    background: rgba(226, 232, 240, 0.7);
+    color: var(--text-dark);
+    cursor: pointer;
+    backdrop-filter: blur(8px); /* More blur */
+    transition: var(--transition-medium);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Subtle initial shadow */
 }
 
 .tab-switch button:before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50px;
-  background: linear-gradient(45deg, var(--primary), var(--primary-light));
-  opacity: 0;
-  transition: var(--transition);
-  z-index: -1;
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-round);
+    background: linear-gradient(45deg, var(--primary), var(--primary-light));
+    opacity: 0;
+    transition: var(--transition-medium);
+    z-index: -1;
 }
 
-.tab-switch .active {
-  color: #fff;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px var(--hover-shadow);
+.tab-switch button:hover {
+    transform: translateY(-3px) scale(1.02); /* Slight lift and scale */
+    box-shadow: 0 8px 20px var(--shadow-medium);
 }
 
-.tab-switch .active:before {
-  opacity: 1;
+.tab-switch button.active {
+    color: var(--light);
+    transform: translateY(-5px); /* More pronounced lift when active */
+    box-shadow: 0 12px 30px var(--shadow-strong); /* Stronger active shadow */
+    font-weight: 700;
+}
+
+.tab-switch button.active:before {
+    opacity: 1;
 }
 
 /* Cards */
 .cardBox {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Slightly smaller minmax for flexibility */
+    gap: 2.2rem; /* Increased gap */
+    width: 100%;
 }
 
 .student-card {
-  background: var(--glass);
-  border-radius: var(--radius);
-  padding: 1.75rem;
-  box-shadow: 0 12px 30px var(--shadow), inset 0 0 0 1px #fff;
-  border-top: 4px solid var(--primary);
-  border: 1px solid var(--border);
-  transition: var(--transition);
-  animation: cardAppear 0.6s ease forwards;
-  transform: translateY(30px) rotateX(5deg);
-  opacity: 0;
-  backdrop-filter: blur(10px);
-  overflow: hidden;
+    background: var(--glass-background);
+    border-radius: var(--radius-soft);
+    padding: 2rem; /* More padding */
+    box-shadow: 0 15px 40px var(--shadow-light), inset 0 0 0 1px var(--light); /* Softer shadows, inner white border */
+    border-top: 5px solid var(--primary); /* Thicker top border */
+    border: 1px solid var(--glass-border); /* Consistent glass border */
+    transition: var(--transition-medium);
+    animation: cardAppear 0.7s ease forwards; /* Slightly slower, smoother animation */
+    transform: translateY(40px) scale(0.98); /* Start lower and slightly scaled down */
+    opacity: 0;
+    backdrop-filter: blur(12px); /* Consistent blur */
+    overflow: hidden;
+    position: relative;
 }
 
 .student-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 20px 50px var(--hover-shadow), 0 5px 15px rgba(67, 97, 238, 0.15);
+    transform: translateY(-12px) scale(1.03); /* More pronounced lift and scale */
+    box-shadow: 0 25px 60px var(--shadow-strong), 0 8px 25px rgba(67, 97, 238, 0.2); /* Stronger hover shadow */
+    border-color: var(--primary-light); /* Border color changes on hover */
 }
 
 .student-card:after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.2), transparent);
-  pointer-events: none;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.25), transparent 70%); /* Stronger glare effect */
+    pointer-events: none;
+    border-radius: var(--radius-soft); /* Ensures glare respects border-radius */
 }
 
+/* Delay card appearance for staggered effect */
+.student-card:nth-child(1) { animation-delay: 0.1s; }
+.student-card:nth-child(2) { animation-delay: 0.2s; }
+.student-card:nth-child(3) { animation-delay: 0.3s; }
+.student-card:nth-child(4) { animation-delay: 0.4s; }
+.student-card:nth-child(5) { animation-delay: 0.5s; }
+/* Add more as needed for your typical grid size */
+
+
 .card-content {
-  z-index: 2;
-  position: relative;
+    z-index: 2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure content fills card */
 }
 
 .student-info h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.75rem;
-  color: var(--text-dark);
-  font-weight: 700;
-  position: relative;
+    font-size: 1.6rem; /* Slightly larger heading in card */
+    margin-bottom: 0.8rem;
+    color: var(--text-dark);
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 0.4rem; /* Space for underline */
 }
 
 .student-info h3:after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 0;
-  width: 40px;
-  height: 3px;
-  background: var(--primary);
-  border-radius: 3px;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px; /* Slightly wider underline */
+    height: 4px; /* Thicker underline */
+    background: var(--primary);
+    border-radius: 3px;
+    box-shadow: 0 1px 5px rgba(67, 97, 238, 0.2); /* Subtle shadow for card underline */
 }
 
 .student-info p {
-  font-size: 1rem;
-  color: var(--text-muted);
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+    font-size: 1.05rem; /* Slightly larger text */
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem; /* More space for icons/text */
 }
 
 /* Status */
 .status-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.6rem 1.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border-radius: 50px;
-  backdrop-filter: blur(4px);
-  transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.7rem 1.6rem; /* More padding */
+    font-size: 0.95rem; /* Slightly larger font */
+    font-weight: 600;
+    border-radius: var(--radius-round);
+    backdrop-filter: blur(6px); /* Consistent blur */
+    transition: var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+}
+
+.status-badge:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More prominent shadow on hover */
 }
 
 .status-overdue {
-  background: linear-gradient(to right, #fff5f5, #ffecec);
-  color: var(--error);
+    background: linear-gradient(to right, #fffafa, #ffe7e7); /* Softer red gradient */
+    color: var(--error);
 }
 
 .status-returned {
-  background: linear-gradient(to right, #f0fff4, #e6f7eb);
-  color: var(--success);
+    background: linear-gradient(to right, #f2fff6, #e6faef); /* Softer green gradient */
+    color: var(--success);
 }
 
 /* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: flex-end; /* Align to right */
+    align-items: center;
+    margin-top: auto; /* Push to bottom of card */
+    padding-top: 1.25rem; /* Space from content above */
+}
+
 .ReBtn, .delBtn {
-  transition: var(--transition);
-  cursor: pointer;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
+    transition: var(--transition-medium);
+    cursor: pointer;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    min-width: 44px; /* Tap friendly */
+    min-height: 44px; /* Tap friendly */
 }
 
 .ReBtn {
-  background: linear-gradient(to right, var(--primary), var(--primary-light));
-  color: var(--light);
-  padding: 0.9rem 1.5rem;
-  border-radius: var(--radius);
-  font-size: 1rem;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+    background: linear-gradient(to right, var(--primary), var(--primary-light));
+    color: var(--light);
+    padding: 1rem 1.75rem; /* More padding */
+    border-radius: var(--radius-soft);
+    font-size: 1.05rem; /* Slightly larger font */
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px var(--shadow-medium); /* Stronger initial shadow */
 }
 
 .ReBtn:after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -60%;
-  width: 20px;
-  height: 200%;
-  background: rgba(255, 255, 255, 0.3);
-  transform: rotate(25deg);
-  transition: all 0.8s ease;
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 25px; /* Wider sparkle */
+    height: 200%;
+    background: rgba(255, 255, 255, 0.4); /* Stronger sparkle */
+    transform: rotate(30deg); /* Slightly more rotated */
+    transition: all 0.9s cubic-bezier(0.19, 1, 0.22, 1); /* Slower, more elegant shine */
 }
 
 .ReBtn:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(67, 97, 238, 0.4);
+    transform: translateY(-7px); /* More pronounced lift */
+    box-shadow: 0 18px 40px var(--shadow-strong); /* Stronger hover shadow */
 }
 
 .ReBtn:hover:after {
-  left: 120%;
+    left: 130%; /* Shines across further */
+}
+
+.ReBtn:active {
+    transform: translateY(-2px) scale(0.98); /* Gentle press effect */
+    box-shadow: 0 5px 15px var(--shadow-light);
 }
 
 .delBtn {
-  height: 3rem;
-  width: 3rem;
-  background: var(--delete-bg);
-  color: var(--delete-hover);
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.15);
-  margin-left: 25px;
+    height: 3.2rem; /* Slightly larger */
+    width: 3.2rem; /* Slightly larger */
+    background: var(--delete-bg);
+    color: var(--delete-hover);
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(230, 57, 70, 0.1); /* Softer initial shadow */
+    margin-left: 1.5rem; /* More space */
+    font-size: 1.2rem; /* Icon size */
 }
 
 .delBtn:hover {
-  background: var(--delete-hover);
-  color: var(--light);
-  transform: rotate(10deg) scale(1.1);
-  box-shadow: 0 6px 20px rgba(230, 57, 70, 0.3);
+    background: var(--delete-hover);
+    color: var(--light);
+    transform: rotate(15deg) scale(1.15); /* More dramatic rotation and scale */
+    box-shadow: 0 8px 25px rgba(230, 57, 70, 0.35); /* Stronger hover shadow */
+}
+
+.delBtn:active {
+    transform: rotate(5deg) scale(0.95); /* Gentle press */
+    box-shadow: 0 3px 10px rgba(230, 57, 70, 0.1);
 }
 
 /* Stats Cards */
 .stats-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjusted minmax */
+    gap: 1.8rem; /* Increased gap */
+    margin-bottom: 3.5rem;
+    width: 100%;
+    animation: fadeInUp 0.7s ease-out 0.6s forwards; /* Fades in later */
+    opacity: 0;
 }
 
 .stat-card {
-  background: var(--glass);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: 0 8px 25px var(--shadow);
-  border: 1px solid var(--border);
-  transition: var(--transition);
+    background: var(--glass-background);
+    border-radius: var(--radius-soft);
+    padding: 1.75rem; /* More padding */
+    box-shadow: 0 10px 30px var(--shadow-light);
+    border: 1px solid var(--glass-border);
+    transition: var(--transition-medium);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Ensure consistent height */
 }
 
 .stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px var(--hover-shadow);
+    transform: translateY(-7px); /* More pronounced lift */
+    box-shadow: 0 15px 40px var(--shadow-medium);
+    border-color: var(--primary-light); /* Border color changes on hover */
+}
+
+.stat-title {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
 }
 
 .stat-value {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: transparent;
-  background: linear-gradient(to right, var(--primary), #6d28d9);
-  -webkit-background-clip: text;
+    font-size: clamp(2.2rem, 5vw, 3.2rem); /* Fluid and larger value */
+    font-weight: 700;
+    color: transparent;
+    background: linear-gradient(45deg, var(--primary), #6d28d9); /* More vibrant gradient */
+    -webkit-background-clip: text;
+    background-clip: text;
+    line-height: 1; /* Prevent extra space below number */
 }
 
 /* Animations */
 @keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes cardAppear {
-  to {
-    opacity: 1;
-    transform: translateY(0) rotateX(0);
-  }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 1rem;
+    }
+}
+
 @media (max-width: 768px) {
-  .cardBox, .stats-container {
-    grid-template-columns: 1fr;
-  }
-  .tab-switch {
-    flex-direction: column;
-    align-items: stretch;
-    margin: 0 auto 2rem;
-  }
-  h1 {
-    font-size: 2.3rem;
-  }
-}
-.active-page {
-  background: linear-gradient(90deg, var(--primary), var(--primary-light));
-  color: #fff !important;
-  border-radius: 10px;
-  box-shadow: 0 6px 18px var(--hover-shadow);
-  font-weight: 700;
-  transform: translateY(-2px) scale(1.04);
-  transition: var(--transition);
-  border: none;
-  width: 1rem;
-}
-/* Improved Container Padding */
-.container {
-  padding: 0 1rem;
-  margin: 0 auto;
-}
+    body {
+        padding: 2rem 0.8rem; /* Adjusted overall padding */
+    }
 
-/* Fluid Typography */
-h1 {
-  font-size: clamp(1.8rem, 4vw, 3rem);
-}
+    .container {
+        padding: 0 0.8rem;
+    }
 
-.subtitle {
-  font-size: clamp(1rem, 2vw, 1.15rem);
-}
+    .cardBox, .stats-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem; /* Reduced gap for single column */
+    }
 
-/* Responsive Search Box Padding */
-.searchBox {
-  padding-left: 3rem;
+    .tab-switch {
+        flex-direction: column;
+        align-items: stretch;
+        margin: 0 auto 2rem;
+        gap: 0.6rem;
+    }
+
+    .tab-switch button {
+        padding: 0.8rem 1.5rem; /* Adjusted padding */
+        font-size: 1rem;
+    }
+
+    h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        margin-bottom: 0.5rem;
+    }
+
+    h1::after {
+        width: 60px;
+        height: 4px;
+    }
+
+    .subtitle {
+        font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    }
+
+    .search-container {
+        max-width: 90%;
+        margin-bottom: 2.5rem;
+    }
+
+    .searchBox {
+        height: 3.5rem;
+        padding: 0 1.25rem 0 3.5rem;
+        font-size: 1rem;
+    }
+
+    .search-icon {
+        left: 1.25rem;
+        font-size: 1.3rem;
+    }
+
+    .student-card {
+        padding: 1.5rem;
+    }
+
+    .student-info h3 {
+        font-size: 1.4rem;
+    }
+
+    .student-info p {
+        font-size: 0.95rem;
+    }
+
+    .stat-card {
+        padding: 1.25rem;
+    }
+
+    .stat-value {
+        font-size: clamp(2rem, 5vw, 2.8rem);
+    }
+
+    .ReBtn {
+        padding: 0.85rem 1.4rem;
+        font-size: 0.95rem;
+    }
+
+    .delBtn {
+        height: 3rem;
+        width: 3rem;
+        margin-left: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
-  .searchBox {
-    height: 3.25rem;
-    font-size: 1rem;
-    padding: 0 1rem 0 2.5rem;
-  }
+    body {
+        padding: 1.5rem 0.5rem;
+    }
 
-  .search-icon {
-    font-size: 1.2rem;
-    left: 1rem;
-  }
+    .container {
+        padding: 0 0.5rem;
+    }
 
-  .tab-switch button {
-    padding: 0.6rem 1rem;
-    font-size: 0.95rem;
-  }
+    h1 {
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
+    }
 
-  .ReBtn {
-    padding: 0.75rem 1.2rem;
-    font-size: 0.95rem;
-  }
+    h1::after {
+        width: 50px;
+        height: 3px;
+    }
 
-  .delBtn {
-    height: 2.5rem;
-    width: 2.5rem;
-    margin-left: 15px;
-  }
+    .subtitle {
+        font-size: clamp(0.9rem, 3vw, 1rem);
+    }
+
+    .search-container {
+        margin-bottom: 2rem;
+    }
+
+    .searchBox {
+        height: 3rem;
+        padding: 0 1rem 0 3rem;
+        font-size: 0.9rem;
+    }
+
+    .search-icon {
+        left: 1rem;
+        font-size: 1.15rem;
+    }
+
+    .tab-switch {
+        gap: 0.5rem;
+    }
+
+    .tab-switch button {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    .tab-switch button.active {
+        transform: translateY(-3px); /* Less dramatic lift on small screens */
+    }
+
+    .student-card {
+        padding: 1.2rem;
+    }
+
+    .student-info h3 {
+        font-size: 1.2rem;
+    }
+    .student-info h3:after {
+        width: 35px;
+        height: 3px;
+    }
+
+    .student-info p {
+        font-size: 0.9rem;
+        gap: 0.6rem;
+    }
+
+    .status-badge {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.85rem;
+    }
+
+    .ReBtn {
+        padding: 0.7rem 1.1rem;
+        font-size: 0.85rem;
+    }
+
+    .delBtn {
+        height: 2.5rem;
+        width: 2.5rem;
+        font-size: 1rem;
+        margin-left: 0.75rem;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+
+    .stat-title {
+        font-size: 1rem;
+    }
+
+    .stat-value {
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
+    }
 }
-
-/* Enhance Tab Responsiveness */
-@media (max-width: 600px) {
-  .tab-switch {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .tab-switch button {
-    flex: 1 1 100%;
-    width: 100%;
-  }
-}
-
-/* Improve Card Responsiveness */
-@media (max-width: 500px) {
-  .student-card {
-    padding: 1.25rem;
-  }
-
-  .student-info h3 {
-    font-size: 1.25rem;
-  }
-
-  .student-info p {
-    font-size: 0.95rem;
-  }
-
-  .status-badge {
-    font-size: 0.8rem;
-    padding: 0.4rem 1rem;
-  }
-}
-
-/* Add Smooth Scrolling for Mobile Navigation */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Make Action Buttons More Tap-Friendly */
-.ReBtn, .delBtn {
-  min-width: 44px;
-  min-height: 44px;
-}
-
-/* Fix active-page class for small screens */
-@media (max-width: 500px) {
-  .active-page {
-    width: auto;
-    padding: 0.3rem 0.8rem;
-    font-size: 0.9rem;
-  }
-}
-/* ...existing code... */
 
 /* Extra small devices (max-width: 376px) */
 @media (max-width: 376px) {
-  .student-card {
-    padding: 0.7rem;
-  }
-  .student-info h3 {
-    font-size: 1rem;
-  }
-  .student-info p {
-    font-size: 0.85rem;
-  }
-  .ReBtn, .delBtn {
-    padding: 0.5rem 0.7rem;
-    font-size: 0.85rem;
-    min-width: 36px;
-    min-height: 36px;
-  }
-  .searchBox {
-    height: 2.5rem;
-    font-size: 0.95rem;
-    padding-left: 1.5rem;
-  }
+    body {
+        padding: 1rem 0.4rem;
+    }
+    .container {
+        padding: 0 0.4rem;
+    }
+
+    h1 {
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+    }
+    .subtitle {
+        font-size: clamp(0.85rem, 3.5vw, 0.95rem);
+    }
+
+    .searchBox {
+        height: 2.7rem;
+        padding: 0 0.8rem 0 2.5rem;
+        font-size: 0.85rem;
+    }
+    .search-icon {
+        left: 0.8rem;
+        font-size: 1rem;
+    }
+
+    .tab-switch button {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .student-card {
+        padding: 1rem;
+    }
+    .student-info h3 {
+        font-size: 1.1rem;
+    }
+    .student-info p {
+        font-size: 0.8rem;
+        gap: 0.5rem;
+    }
+
+    .status-badge {
+        padding: 0.4rem 1.0rem;
+        font-size: 0.8rem;
+    }
+
+    .ReBtn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+        min-width: 38px;
+        min-height: 38px;
+    }
+    .delBtn {
+        height: 2.2rem;
+        width: 2.2rem;
+        font-size: 0.9rem;
+        margin-left: 0.6rem;
+    }
 }
 
 /* Ultra small devices (max-width: 321px) */
 @media (max-width: 321px) {
-  .student-card {
-    padding: 0.4rem;
-  }
-  .student-info h3 {
-    font-size: 0.85rem;
-  }
-  .student-info p {
-    font-size: 0.75rem;
-  }
-  .ReBtn, .delBtn {
-    padding: 0.3rem 0.5rem;
-    font-size: 0.75rem;
-    min-width: 28px;
-    min-height: 28px;
-  }
-  .searchBox {
-    height: 2rem;
-    font-size: 0.85rem;
-    padding-left: 1rem;
-  }
+    body {
+        padding: 0.8rem 0.2rem;
+    }
+    .container {
+        padding: 0 0.2rem;
+    }
+
+    h1 {
+        font-size: clamp(1.4rem, 8vw, 2rem);
+    }
+    .subtitle {
+        font-size: clamp(0.8rem, 4vw, 0.9rem);
+    }
+
+    .searchBox {
+        height: 2.4rem;
+        padding: 0 0.6rem 0 2rem;
+        font-size: 0.8rem;
+    }
+    .search-icon {
+        left: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .tab-switch button {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .student-card {
+        padding: 0.8rem;
+    }
+    .student-info h3 {
+        font-size: 1rem;
+    }
+    .student-info p {
+        font-size: 0.75rem;
+        gap: 0.4rem;
+    }
+
+    .status-badge {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.75rem;
+    }
+
+    .ReBtn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+        min-width: 32px;
+        min-height: 32px;
+    }
+    .delBtn {
+        height: 2rem;
+        width: 2rem;
+        font-size: 0.8rem;
+        margin-left: 0.5rem;
+    }
 }
 
-/* ...existing code... */
+/* Global active-page styling */
+.active-page {
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    color: var(--light) !important;
+    border-radius: var(--radius-round); /* Consistent with other buttons */
+    box-shadow: 0 8px 20px var(--shadow-medium); /* Stronger active shadow */
+    font-weight: 700;
+    transform: translateY(-4px) scale(1.05); /* More pronounced lift */
+    transition: var(--transition-medium);
+    border: none;
+    padding: 0.9rem 1.8rem; /* Adjusted padding to match tab buttons */
+    width: auto; /* Allow width to adapt to content */
+}
 
+/* Active page overrides for smaller screens */
+@media (max-width: 500px) {
+    .active-page {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 6px 15px var(--shadow-medium);
+    }
+}

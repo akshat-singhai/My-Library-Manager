@@ -1,14 +1,14 @@
 :root {
   --primary-gradient: linear-gradient(135deg, #7F5AF0 0%, #2CB67D 100%);
-  --primary-shadow: 0 6px 20px rgba(44, 182, 125, 0.25);
+  --primary-shadow: 0 8px 25px rgba(44, 182, 125, 0.2); /* Slightly adjusted for softness */
   --text-dark: #16161A;
   --text-light: #FFFFFE;
   --surface-light: #F9FAFB;
   --surface-card: #FFFFFF;
-  --hover-effect: rgba(255, 255, 255, 0.15);
+  --hover-effect: rgba(255, 255, 255, 0.18); /* Slightly more prominent hover */
 
   --transition-default: all 0.3s ease;
-  --transition-air: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  --transition-air: all 0.5s cubic-bezier(0.25, 0.8, 0.5, 1); /* Smoother cubic-bezier */
   --transition-smooth: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -26,11 +26,15 @@ html {
 
 body {
   font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  line-height: 1.6;
+  line-height: 1.7; /* Slightly increased line height for readability */
   color: var(--text-dark);
   padding: 2rem;
   min-height: 100vh;
-  background-image: radial-gradient(circle at 15% 50%, rgba(226, 243, 245, 0.3) 0%, transparent 20%), 
+  display: flex; /* Added for centering content */
+  flex-direction: column; /* Added for centering content */
+  align-items: center; /* Added for centering content */
+  justify-content: center; /* Added for vertical centering */
+  background-image: radial-gradient(circle at 15% 50%, rgba(226, 243, 245, 0.3) 0%, transparent 20%),
                     radial-gradient(circle at 85% 30%, rgba(226, 243, 245, 0.3) 0%, transparent 20%);
   background-size: 300% 300%;
   background-position: 0% 0%;
@@ -45,69 +49,69 @@ body {
 
 h1 {
   font-weight: 800;
-  font-size: clamp(2rem, 5vw, 3rem);
-  margin-bottom: 1.5rem;
+  font-size: clamp(2.2rem, 5vw, 3.2rem); /* Slightly larger base font size */
+  margin-bottom: 1.75rem; /* Increased margin */
   color: var(--text-dark);
-  letter-spacing: -0.75px;
+  letter-spacing: -1px; /* Tighter letter spacing for impact */
   position: relative;
   display: inline-block;
-  animation: floatHeading 8s ease-in-out infinite;
+  animation: floatHeading 7s ease-in-out infinite; /* Slightly faster animation */
 }
 
 @keyframes floatHeading {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50% { transform: translateY(-6px); } /* Reduced float distance */
 }
 
 h1::after {
   content: '';
   position: absolute;
-  bottom: -8px;
+  bottom: -10px; /* Adjusted position */
   left: 0;
-  width: 60px;
-  height: 4px;
+  width: 65px; /* Slightly wider */
+  height: 5px; /* Slightly thicker */
   background: #2CB67D;
-  border-radius: 2px;
-  animation: underlinePulse 3s ease-in-out infinite;
+  border-radius: 3px; /* Softer border-radius */
+  animation: underlinePulse 3.5s ease-in-out infinite; /* Slightly slower pulse */
 }
 
 @keyframes underlinePulse {
-  0%, 100% { width: 60px; opacity: 1; }
-  50% { width: 80px; opacity: 0.8; }
+  0%, 100% { width: 65px; opacity: 1; }
+  50% { width: 85px; opacity: 0.9; } /* Slightly less opaque */
 }
 
 /* ===== Navigation Bar ===== */
 .navDiv {
   display: flex;
   background: var(--primary-gradient);
-  border-radius: 14px;
-  width: min(100%, 18rem);
-  padding: 0.5rem;
-  margin-bottom: 2.5rem;
+  border-radius: 16px; /* Slightly larger border-radius */
+  width: min(100%, 20rem); /* Slightly wider */
+  padding: 0.6rem; /* Increased padding */
+  margin-bottom: 3rem; /* Increased margin */
   box-shadow: var(--primary-shadow);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Slightly more prominent border */
   transition: var(--transition-air);
-  animation: floatNav 6s ease-in-out infinite;
-  box-shadow: 4px  2px 3px black;
+  animation: floatNav 7s ease-in-out infinite; /* Slightly faster animation */
+  box-shadow: 4px 2px 5px rgba(0, 0, 0, 0.2); /* Softer black shadow */
 }
 
 @keyframes floatNav {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  50% { transform: translateY(-4px); } /* Reduced float distance */
 }
 
 .navDiv:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 16px 32px rgba(44, 182, 125, 0.3);
+  transform: translateY(-6px) scale(1.02); /* Slightly increased hover lift */
+  box-shadow: 0 18px 36px rgba(44, 182, 125, 0.35); /* More prominent hover shadow */
 }
 
 .navBox {
   flex: 1;
-  padding: 0.85rem 1.5rem;
+  padding: 0.9rem 1.6rem; /* Adjusted padding */
   font-weight: 600;
   color: var(--text-light);
   text-align: center;
-  border-radius: 10px;
+  border-radius: 12px; /* Slightly larger border-radius */
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -136,7 +140,7 @@ h1::after {
 
 .navBox::after {
   width: 100%;
-  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 80%);
+  background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 80%); /* Slightly more opaque */
   opacity: 0;
   transition: opacity var(--transition-smooth);
 }
@@ -150,28 +154,29 @@ h1::after {
 }
 
 .navBox:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px) scale(1.06); /* Slightly more pronounced hover */
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15); /* Slightly more prominent hover shadow */
 }
 
 .navBox:active {
-  transform: translateY(2px) scale(0.98);
+  transform: translateY(3px) scale(0.97); /* Slightly more pronounced active state */
   transition: all 0.1s ease;
 }
 
 /* ===== Content Card ===== */
 .content-card {
   background: var(--surface-card);
-  border-radius: 18px;
-  padding: 2.5rem;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-  max-width: 800px;
+  border-radius: 20px; /* Slightly larger border-radius */
+  padding: 3rem; /* Increased padding */
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1); /* Softer, more diffused shadow */
+  max-width: 850px; /* Slightly wider max-width */
+  width: 100%; /* Ensures it takes full width within its padding */
   margin: 0 auto;
-  border: 1px solid rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.04); /* Slightly more visible border */
   transition: var(--transition-air);
-  animation: cardAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation: cardAppear 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* Slightly slower and smoother */
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(30px); /* Increased initial transform */
 }
 
 @keyframes cardAppear {
@@ -182,15 +187,15 @@ h1::after {
 }
 
 .content-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  transform: translateY(-7px); /* Slightly increased hover lift */
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.12); /* More prominent hover shadow */
 }
 
 /* ===== Air Element Bubbles ===== */
 .air-element {
   position: fixed;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(127,90,240,0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(127,90,240,0.18) 0%, transparent 70%); /* Slightly more visible */
   z-index: -1;
   animation: floatAir 25s infinite linear;
 }
@@ -201,7 +206,7 @@ h1::after {
     opacity: 0;
   }
   50% {
-    opacity: 0.4;
+    opacity: 0.45; /* Slightly more opaque */
   }
   100% {
     transform: translate(100vw, -100vh) rotate(720deg);
@@ -212,30 +217,46 @@ h1::after {
 /* ===== Responsive Design ===== */
 @media (max-width: 768px) {
   body {
-    padding: 1.5rem;
+    padding: 1.75rem; /* Adjusted padding */
+    justify-content: flex-start; /* Align to start on smaller screens */
   }
 
   .navDiv {
-    width: 100%;
-    flex-direction: column;
-    gap: 0.5rem;
+    width: 90%; /* Wider on tablet */
+    flex-direction: row; /* Keep it row-based for better tablet use if 2 items */
+    gap: 0.6rem; /* Adjusted gap */
+    max-width: 25rem; /* Allow wider nav on tablets */
+  }
+  
+  .navBox {
+      flex: 1; /* Ensure even distribution */
   }
 
   .content-card {
-    padding: 2rem;
+    padding: 2.25rem; /* Adjusted padding */
+  }
+
+  h1 {
+      margin-bottom: 1.25rem;
+  }
+  h1::after {
+      bottom: -7px;
   }
 }
 
 @media (max-width: 480px) {
   body {
-    padding: 1.25rem;
+    padding: 1.5rem; /* Adjusted padding */
     animation: none;
     background-size: 200% 200%;
   }
 
   .navDiv {
-    border-radius: 12px;
+    border-radius: 14px; /* Adjusted border-radius */
     animation: floatNavMobile 6s ease-in-out infinite;
+    flex-direction: column; /* Stack vertically on small phones */
+    width: min(100%, 15rem); /* Tighter width on small phones */
+    gap: 0.5rem;
   }
 
   @keyframes floatNavMobile {
@@ -244,16 +265,18 @@ h1::after {
   }
 
   .navBox {
-    padding: 0.75rem 1rem;
+    padding: 0.8rem 1.2rem; /* Adjusted padding */
   }
 
   .content-card {
-    padding: 1.5rem 1.25rem;
-    border-radius: 16px;
+    padding: 1.75rem 1.5rem; /* Adjusted padding */
+    border-radius: 18px; /* Adjusted border-radius */
   }
 
   h1 {
     animation: floatHeadingMobile 8s ease-in-out infinite;
+    font-size: clamp(1.8rem, 5vw, 2.8rem); /* Adjusted font size */
+    margin-bottom: 1rem;
   }
 
   @keyframes floatHeadingMobile {
@@ -264,60 +287,71 @@ h1::after {
 /* Extra small devices (max-width: 376px) */
 @media (max-width: 376px) {
   body {
-    padding: 1rem;
+    padding: 1.25rem; /* Adjusted padding */
     background-size: 180% 180%;
   }
 
   h1 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    animation: floatHeadingMobile 8s ease-in-out infinite;
+    font-size: clamp(1.6rem, 4.5vw, 2.4rem); /* Adjusted font size */
+    margin-bottom: 0.8rem;
+  }
+
+  h1::after {
+      bottom: -6px;
+      height: 4px;
+      width: 50px;
   }
 
   .navDiv {
     gap: 0.4rem;
     padding: 0.4rem;
-    border-radius: 10px;
+    border-radius: 12px;
+    width: min(100%, 13rem);
   }
 
   .navBox {
-    padding: 0.65rem 0.9rem;
+    padding: 0.7rem 1rem; /* Adjusted padding */
     font-size: 0.9rem;
   }
 
   .content-card {
-    padding: 1.25rem 1rem;
-    border-radius: 14px;
+    padding: 1.5rem 1.25rem; /* Adjusted padding */
+    border-radius: 16px;
   }
 }
 
 /* Ultra small devices (max-width: 321px) */
 @media (max-width: 321px) {
   body {
-    padding: 0.85rem;
+    padding: 1rem; /* Adjusted padding */
     background-size: 160% 160%;
   }
 
   h1 {
-    font-size: clamp(1.5rem, 4.5vw, 2.25rem);
+    font-size: clamp(1.4rem, 4.8vw, 2.1rem); /* Adjusted font size */
+    margin-bottom: 0.7rem;
+  }
+
+  h1::after {
+      width: 45px;
+      height: 3px;
   }
 
   .navDiv {
-   
-    border-radius: 8px;
-    display: flex;
-    width: 15rem;
+    border-radius: 10px; /* Adjusted border-radius */
+    width: min(100%, 11rem); /* Tighter width */
+    padding: 0.35rem;
   }
 
   .navBox {
     padding: 0.6rem 0.8rem;
     font-size: 0.85rem;
-    height: 3rem;
-    box-shadow: 4px  2px 3px black;
-    width: 12rem;
+    height: auto; /* Allow height to adjust */
+    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2); /* Softer shadow for navBox */
   }
 
   .content-card {
-    padding: 1rem 0.85rem;
-    border-radius: 12px;
+    padding: 1.2rem 1rem; /* Adjusted padding */
+    border-radius: 14px;
   }
 }
