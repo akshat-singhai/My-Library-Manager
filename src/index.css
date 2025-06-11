@@ -1,0 +1,323 @@
+:root {
+  --primary-gradient: linear-gradient(135deg, #7F5AF0 0%, #2CB67D 100%);
+  --primary-shadow: 0 6px 20px rgba(44, 182, 125, 0.25);
+  --text-dark: #16161A;
+  --text-light: #FFFFFE;
+  --surface-light: #F9FAFB;
+  --surface-card: #FFFFFF;
+  --hover-effect: rgba(255, 255, 255, 0.15);
+
+  --transition-default: all 0.3s ease;
+  --transition-air: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  --transition-smooth: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ===== Base Reset & Typography ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--surface-light);
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.6;
+  color: var(--text-dark);
+  padding: 2rem;
+  min-height: 100vh;
+  background-image: radial-gradient(circle at 15% 50%, rgba(226, 243, 245, 0.3) 0%, transparent 20%), 
+                    radial-gradient(circle at 85% 30%, rgba(226, 243, 245, 0.3) 0%, transparent 20%);
+  background-size: 300% 300%;
+  background-position: 0% 0%;
+  animation: airMovement 20s infinite alternate;
+  transition: var(--transition-air);
+}
+
+@keyframes airMovement {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+h1 {
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+  letter-spacing: -0.75px;
+  position: relative;
+  display: inline-block;
+  animation: floatHeading 8s ease-in-out infinite;
+}
+
+@keyframes floatHeading {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: #2CB67D;
+  border-radius: 2px;
+  animation: underlinePulse 3s ease-in-out infinite;
+}
+
+@keyframes underlinePulse {
+  0%, 100% { width: 60px; opacity: 1; }
+  50% { width: 80px; opacity: 0.8; }
+}
+
+/* ===== Navigation Bar ===== */
+.navDiv {
+  display: flex;
+  background: var(--primary-gradient);
+  border-radius: 14px;
+  width: min(100%, 18rem);
+  padding: 0.5rem;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--primary-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: var(--transition-air);
+  animation: floatNav 6s ease-in-out infinite;
+  box-shadow: 4px  2px 3px black;
+}
+
+@keyframes floatNav {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.navDiv:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 16px 32px rgba(44, 182, 125, 0.3);
+}
+
+.navBox {
+  flex: 1;
+  padding: 0.85rem 1.5rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  text-decoration: none;
+  min-width: 0;
+  will-change: transform;
+  transition: var(--transition-air);
+}
+
+.navBox::before,
+.navBox::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: -1;
+}
+
+.navBox::before {
+  width: 0;
+  background: var(--hover-effect);
+  transition: width var(--transition-smooth);
+}
+
+.navBox::after {
+  width: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 80%);
+  opacity: 0;
+  transition: opacity var(--transition-smooth);
+}
+
+.navBox:hover::before {
+  width: 100%;
+}
+
+.navBox:hover::after {
+  opacity: 1;
+}
+
+.navBox:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.navBox:active {
+  transform: translateY(2px) scale(0.98);
+  transition: all 0.1s ease;
+}
+
+/* ===== Content Card ===== */
+.content-card {
+  background: var(--surface-card);
+  border-radius: 18px;
+  padding: 2.5rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: var(--transition-air);
+  animation: cardAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes cardAppear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Air Element Bubbles ===== */
+.air-element {
+  position: fixed;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(127,90,240,0.15) 0%, transparent 70%);
+  z-index: -1;
+  animation: floatAir 25s infinite linear;
+}
+
+@keyframes floatAir {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(100vw, -100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  body {
+    padding: 1.5rem;
+  }
+
+  .navDiv {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .content-card {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1.25rem;
+    animation: none;
+    background-size: 200% 200%;
+  }
+
+  .navDiv {
+    border-radius: 12px;
+    animation: floatNavMobile 6s ease-in-out infinite;
+  }
+
+  @keyframes floatNavMobile {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .navBox {
+    padding: 0.75rem 1rem;
+  }
+
+  .content-card {
+    padding: 1.5rem 1.25rem;
+    border-radius: 16px;
+  }
+
+  h1 {
+    animation: floatHeadingMobile 8s ease-in-out infinite;
+  }
+
+  @keyframes floatHeadingMobile {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+}
+/* Extra small devices (max-width: 376px) */
+@media (max-width: 376px) {
+  body {
+    padding: 1rem;
+    background-size: 180% 180%;
+  }
+
+  h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    animation: floatHeadingMobile 8s ease-in-out infinite;
+  }
+
+  .navDiv {
+    gap: 0.4rem;
+    padding: 0.4rem;
+    border-radius: 10px;
+  }
+
+  .navBox {
+    padding: 0.65rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  .content-card {
+    padding: 1.25rem 1rem;
+    border-radius: 14px;
+  }
+}
+
+/* Ultra small devices (max-width: 321px) */
+@media (max-width: 321px) {
+  body {
+    padding: 0.85rem;
+    background-size: 160% 160%;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 4.5vw, 2.25rem);
+  }
+
+  .navDiv {
+   
+    border-radius: 8px;
+    display: flex;
+    width: 15rem;
+  }
+
+  .navBox {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+    height: 3rem;
+    box-shadow: 4px  2px 3px black;
+    width: 12rem;
+  }
+
+  .content-card {
+    padding: 1rem 0.85rem;
+    border-radius: 12px;
+  }
+}
